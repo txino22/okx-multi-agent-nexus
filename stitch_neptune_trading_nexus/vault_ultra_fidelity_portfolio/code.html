@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Neptune AI - Command Center</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#ffb68c",
+                        "on-secondary-fixed-variant": "#2d476f",
+                        "primary-fixed": "#d6e3ff",
+                        "on-primary-fixed-variant": "#00458d",
+                        "surface-variant": "#31353c",
+                        "tertiary-container": "#c05900",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#2d3037",
+                        "on-tertiary-container": "#0d0300",
+                        "surface-tint": "#aac7ff",
+                        "surface-dim": "#0a0f16",
+                        "error": "#ffb4ab",
+                        "surface": "#0a0c10",
+                        "on-tertiary-fixed-variant": "#763400",
+                        "on-primary-fixed": "#001b3e",
+                        "inverse-surface": "#e0e2eb",
+                        "inverse-primary": "#005db8",
+                        "surface-container-low": "#111827",
+                        "on-primary-container": "#000512",
+                        "on-background": "#e0e2eb",
+                        "on-tertiary-fixed": "#321200",
+                        "secondary-fixed-dim": "#aec7f7",
+                        "surface-container-high": "#1f2937",
+                        "on-secondary-fixed": "#001b3d",
+                        "background": "#0a0c10",
+                        "surface-bright": "#374151",
+                        "on-secondary-container": "#9db6e4",
+                        "secondary-fixed": "#d6e3ff",
+                        "error-container": "#93000a",
+                        "secondary": "#aec7f7",
+                        "on-surface-variant": "#c1c6d5",
+                        "on-secondary": "#143057",
+                        "surface-container": "#151e2b",
+                        "tertiary-fixed": "#ffdbc9",
+                        "primary-container": "#1275e2",
+                        "surface-container-lowest": "#05080b",
+                        "secondary-container": "#2d476f",
+                        "outline-variant": "#414753",
+                        "on-primary": "#002f64",
+                        "outline": "#8b919f",
+                        "on-tertiary": "#532200",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#aac7ff",
+                        "tertiary-fixed-dim": "#ffb68c",
+                        "on-surface": "#e0e2eb",
+                        "surface-container-highest": "#1f2937",
+                        "primary-fixed-dim": "#aac7ff"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        "2xl": "1rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "20px",
+                        unit: "4px",
+                        xs: "4px",
+                        "margin-desktop": "48px",
+                        xl: "40px",
+                        gutter: "16px",
+                        md: "16px",
+                        sm: "8px",
+                        lg: "24px",
+                        safe: "env(safe-area-inset-bottom)"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Space Grotesk"],
+                        "body-lg": ["Outfit"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "title-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-md": ["Outfit"],
+                        "label-sm": ["Space Grotesk"],
+                        headline: ["Inter"],
+                        display: ["Inter"],
+                        body: ["Inter"],
+                        label: ["Inter"],
+                        financial: ["Space Grotesk"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", {lineHeight: "1.2", fontWeight: "600"}],
+                        "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "400"}],
+                        "headline-lg-mobile": ["24px", {lineHeight: "1.2", fontWeight: "600"}],
+                        "title-md": ["20px", {lineHeight: "1.4", fontWeight: "500", letterSpacing: "0.02em"}],
+                        "display-lg": ["48px", {lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700"}],
+                        "body-md": ["16px", {lineHeight: "1.5", fontWeight: "400"}],
+                        "label-sm": ["12px", {lineHeight: "1", letterSpacing: "0.05em", fontWeight: "600"}]
+                    },
+                    keyframes: {
+                        "avatar-pulse": {
+                            "0%, 100%": {transform: "scale(1)", boxShadow: "0 0 15px rgba(170, 199, 255, 0.4)"},
+                            "50%": {transform: "scale(1.05)", boxShadow: "0 0 25px rgba(170, 199, 255, 0.7)"}
+                        },
+                        "avatar-spin": {
+                            "0%": {transform: "rotate(0deg)"},
+                            "100%": {transform: "rotate(360deg)"}
+                        },
+                        "message-enter": {
+                            "0%": {opacity: "0", transform: "translateY(20px) scale(0.95)"},
+                            "100%": {opacity: "1", transform: "translateY(0) scale(1)"}
+                        },
+                        "border-pulse": {
+                            "0%, 100%": {borderLeftColor: "#aac7ff", boxShadow: "0 0 20px rgba(170, 199, 255, 0.15), inset 4px 0 15px rgba(170, 199, 255, 0.05)"},
+                            "50%": {borderLeftColor: "rgba(170, 199, 255, 0.6)", boxShadow: "0 0 35px rgba(170, 199, 255, 0.4), inset 4px 0 25px rgba(170, 199, 255, 0.15)"}
+                        },
+                        "bg-drift": {
+                            "0%": {backgroundPosition: "0% 50%"},
+                            "50%": {backgroundPosition: "100% 50%"},
+                            "100%": {backgroundPosition: "0% 50%"}
+                        },
+                        "shimmer": {
+                            "0%": {backgroundPosition: "200% 0"},
+                            "100%": {backgroundPosition: "-200% 0"}
+                        },
+                        "breathe": {
+                            "0%, 100%": { transform: "scale(0.98)" },
+                            "50%": { transform: "scale(1.02)" }
+                        }
+                    },
+                    animation: {
+                        "avatar-pulse": "avatar-pulse 4s ease-in-out infinite",
+                        "avatar-spin": "avatar-spin 8s linear infinite",
+                        "message-enter": "message-enter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards",
+                        "border-pulse": "border-pulse 4s ease-in-out infinite",
+                        "bg-drift": "bg-drift 25s ease infinite",
+                        "shimmer": "shimmer 3s infinite linear",
+                        "breathe": "breathe 6s infinite ease-in-out"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for chat area */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(139, 145, 159, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(139, 145, 159, 0.4); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .glass-card {
+            background: rgba(21, 30, 43, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .ai-message-glow {
+            box-shadow: inset 0 0 0 1px rgba(170, 199, 255, 0.15), 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .liquid-ring {
+            transform-origin: center;
+            transition: all 0.3s ease;
+        }
+        .liquid-ring:hover {
+            stroke-width: 10px;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        .glow-pulse {
+            animation: glowPulse 4s infinite ease-in-out;
+        }
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
+            50% { text-shadow: 0 0 40px rgba(0, 240, 255, 0.6); }
+            100% { text-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-[#060a13] via-[#0b1221] to-[#121c32] bg-[length:300%_300%] animate-bg-drift text-on-background h-screen w-full flex flex-col overflow-hidden antialiased relative">
+    <div id="particles-js"></div>
+    
+    <!-- TopAppBar -->
+    <header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 glass-card shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-b border-outline-variant/20">
+        <div class="flex items-center gap-sm">
+            <div class="relative w-8 h-8 flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-primary-container animate-avatar-pulse opacity-70"></div>
+                <div class="absolute inset-1 rounded-full bg-gradient-to-tr from-secondary-container to-primary animate-avatar-spin opacity-90 blur-[2px]"></div>
+                <div class="w-6 h-6 rounded-full bg-surface-container-highest z-10 flex items-center justify-center border border-primary/30 shadow-[inset_0_0_10px_rgba(170,199,255,0.5)]"></div>
+            </div>
+            <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-primary tracking-tight">Neptune AI</h1>
+        </div>
+        
+        <!-- Desktop Navigation Tab Bar -->
+        <nav class="hidden md:flex items-center gap-xl">
+            <button onclick="switchTab('nexus')" id="tab-btn-desktop-nexus" class="tab-btn font-label-sm text-label-sm text-on-surface-variant flex items-center gap-xs tracking-wider transition-all">
+                <span class="material-symbols-outlined text-[18px]">hub</span> CHAT (NEXUS)
+            </button>
+            <button onclick="switchTab('vault')" id="tab-btn-desktop-vault" class="tab-btn font-label-sm text-label-sm text-primary flex items-center gap-xs tracking-wider transition-all">
+                <span class="material-symbols-outlined text-[18px]">account_balance_wallet</span> CARTERA (VAULT)
+            </button>
+            <button onclick="switchTab('fleet')" id="tab-btn-desktop-fleet" class="tab-btn font-label-sm text-label-sm text-on-surface-variant hover:text-primary flex items-center gap-xs tracking-wider transition-all">
+                <span class="material-symbols-outlined text-[18px]">precision_manufacturing</span> OPERACIONES ACTIVAS
+            </button>
+        </nav>
+        
+        <button class="text-primary hover:opacity-80 transition-opacity p-2 rounded-full hover:bg-surface-variant/50">
+            <span class="material-symbols-outlined">sensors</span>
+        </button>
+    </header>
+
+    <!-- Unified Screen Containers -->
+    <div class="flex-1 overflow-y-auto mt-16 pb-[140px] md:pb-[100px] w-full flex flex-col relative z-10">
+        
+        <!-- TAB 1: CHAT (Nexus View) -->
+        <div id="view-nexus" class="view-panel hidden flex flex-col gap-lg px-margin-mobile md:px-max(margin-desktop,20vw) py-lg w-full">
+            <!-- Timestamp -->
+            <div class="flex justify-center w-full animate-message-enter" style="animation-delay: 0.1s;">
+                <span class="font-label-sm text-label-sm text-on-surface-variant/70 glass-card px-4 py-1.5 rounded-full border border-outline-variant/30 tracking-widest uppercase">SYSTEM ONLINE • 04:22 UTC</span>
+            </div>
+            <!-- User Message -->
+            <div class="flex justify-end w-full group animate-message-enter" style="animation-delay: 0.2s;">
+                <div class="glass-card border border-outline-variant/20 rounded-2xl rounded-tr-sm p-md max-w-[85%] md:max-w-[70%] text-on-surface font-body-md text-body-md shadow-lg">
+                    Abrir una estrategia rentable en BTC
+                </div>
+            </div>
+            <!-- AI Message: Standard Response -->
+            <div class="flex justify-start w-full gap-sm animate-message-enter" style="animation-delay: 0.3s;">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary-container/40 to-transparent border border-primary/30 flex-shrink-0 mt-1 flex items-center justify-center relative">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(170,199,255,0.9)] animate-pulse"></span>
+                </div>
+                <div class="glass-card ai-message-glow rounded-2xl rounded-tl-sm p-md max-w-[85%] md:max-w-[70%] text-on-surface font-body-md text-body-md shadow-lg">
+                    Iniciando escaneo de indicadores y volumen. Conectando con los sub-agentes Analista y Estratega...
+                </div>
+            </div>
+            
+            <!-- Coordinated Agent Logs -->
+            <div class="flex justify-start w-full gap-sm animate-message-enter" style="animation-delay: 0.4s;">
+                <div class="w-6 h-6 rounded-full flex-shrink-0 mt-1"></div>
+                <div class="glass-card rounded-2xl p-md max-w-[85%] md:max-w-[70%] bg-surface-container-lowest/30 border border-outline-variant/10 text-on-surface-variant font-label-sm text-[13px] shadow-sm flex flex-col gap-2">
+                    <div class="flex items-center gap-2 text-primary">
+                        <span class="material-symbols-outlined text-[15px]">settings_ethernet</span>
+                        <span>[Interfaz -> Analista] Solicitando datos técnicos y de mercado para BTC...</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-green-400">
+                        <span class="material-symbols-outlined text-[15px]">done</span>
+                        <span>[Analista -> Interfaz] Datos de mercado obtenidos (RSI: 54, Vol 24h: Estructura estable).</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-purple-400">
+                        <span class="material-symbols-outlined text-[15px]">query_stats</span>
+                        <span>[Interfaz -> Estratega] Solicitando cálculo de estrategia óptima de riesgo medio...</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-green-400">
+                        <span class="material-symbols-outlined text-[15px]">done</span>
+                        <span>[Estratega -> Interfaz] Parámetros óptimos calculados (Grid Bot: Rango 68k - 72k).</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Insight Bubble: The Strategy Proposal -->
+            <div class="flex justify-start w-full gap-sm animate-message-enter" style="animation-delay: 0.5s;">
+                <div class="w-6 h-6 rounded-full flex-shrink-0 mt-1"></div>
+                <div class="glass-card ai-message-glow border-l-2 rounded-2xl rounded-tl-sm p-md max-w-[85%] md:max-w-[70%] text-on-surface transform transition-transform hover:scale-[1.01] duration-300 relative overflow-hidden animate-border-pulse shadow-[0_8px_30px_rgba(170,199,255,0.1)]">
+                    <div class="absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-primary-container/10 to-transparent animate-shimmer pointer-events-none"></div>
+                    <div class="flex items-center gap-2 mb-3 relative z-10">
+                        <span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+                        <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">Propuesta de Estrategia</span>
+                    </div>
+                    <h3 class="font-title-md text-title-md text-on-background mb-2 relative z-10">Grid Bot en BTC-USDT (Riesgo Medio)</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant relative z-10 leading-relaxed mb-3">
+                        El Analista reporta una tendencia de consolidación segura. Propongo activar un **Spot Grid Bot** con:
+                    </p>
+                    <ul class="text-[14px] text-on-surface/90 space-y-1 relative z-10 mb-4 list-disc pl-4 font-body-md">
+                        <li>Rango de Precio: <span class="text-primary font-semibold font-financial">68,000 - 72,000 USDT</span></li>
+                        <li>Número de Rejillas: <span class="text-primary font-semibold">20 (Aritméticas)</span></li>
+                        <li>Inversión sugerida: <span class="text-primary font-semibold font-financial">100 USDT</span></li>
+                        <li>Rendimiento APY Proyectado: <span class="text-green-400 font-semibold font-financial">18.4%</span></li>
+                    </ul>
+                    <p class="font-body-md text-body-md text-primary font-semibold relative z-10">
+                        ¿Deseas que ejecute esta estrategia en tu cuenta de simulación?
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: CARTERA (Vault View) -->
+        <div id="view-vault" class="view-panel flex flex-col gap-lg px-margin-mobile md:px-max(margin-desktop,20vw) py-lg w-full max-w-lg mx-auto">
+            <!-- Balance Module -->
+            <section class="flex flex-col items-center text-center mt-md">
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-xs flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_rgba(0,240,255,0.8)]"></span>
+                    Balance Total del Vault
+                </span>
+                <h2 class="font-financial text-display-lg text-primary tracking-tight glow-pulse">
+                    $42,150.80
+                </h2>
+                <div class="mt-sm px-3 py-1 rounded-full bg-surface-container-high/30 border border-outline-variant/20 flex items-center gap-1 backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-[16px] text-primary-container">trending_up</span>
+                    <span class="font-financial text-label-sm text-primary-container">+$1,240.50 (3.03%)</span>
+                </div>
+            </section>
+            
+            <!-- Donut Chart Visualization -->
+            <section class="relative w-full aspect-square max-h-[260px] mx-auto flex items-center justify-center relative">
+                <div class="absolute inset-0 rounded-full border border-outline-variant/5 shadow-[inset_0_0_60px_rgba(0,240,255,0.05)] bg-gradient-to-b from-surface/50 to-transparent backdrop-blur-sm"></div>
+                <svg class="w-[85%] h-[85%] drop-shadow-[0_0_20px_rgba(0,240,255,0.3)] transform -rotate-90 z-10" viewbox="0 0 100 100">
+                    <defs>
+                        <lineargradient id="gradBTC" x1="0%" x2="100%" y1="0%" y2="100%">
+                            <stop offset="0%" stop-color="#00f0ff"></stop>
+                            <stop offset="100%" stop-color="#006970"></stop>
+                        </lineargradient>
+                        <lineargradient id="gradETH" x1="0%" x2="100%" y1="100%" y2="0%">
+                            <stop offset="0%" stop-color="#7000ff"></stop>
+                            <stop offset="100%" stop-color="#d1bcff"></stop>
+                        </lineargradient>
+                        <lineargradient id="gradSOL" x1="100%" x2="0%" y1="0%" y2="100%">
+                            <stop offset="0%" stop-color="#ffe179"></stop>
+                            <stop offset="100%" stop-color="#715d00"></stop>
+                        </lineargradient>
+                    </defs>
+                    <circle cx="50" cy="50" fill="none" r="42" stroke="#151d1e" stroke-opacity="0.5" stroke-width="6"></circle>
+                    <circle class="liquid-ring" color="#00f0ff" cx="50" cy="50" fill="none" r="42" stroke="url(#gradBTC)" stroke-dasharray="264" stroke-dashoffset="145" stroke-linecap="round" stroke-width="8"></circle>
+                    <circle class="liquid-ring" color="#d1bcff" cx="50" cy="50" fill="none" opacity="0.9" r="42" stroke="url(#gradETH)" stroke-dasharray="264" stroke-dashoffset="172" stroke-linecap="round" stroke-width="6" transform="rotate(162 50 50)"></circle>
+                    <circle class="liquid-ring" color="#ffe179" cx="50" cy="50" fill="none" opacity="0.8" r="42" stroke="url(#gradSOL)" stroke-dasharray="264" stroke-dashoffset="211" stroke-linecap="round" stroke-width="4" transform="rotate(288 50 50)"></circle>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                    <div class="w-1/2 h-1/2 bg-surface/80 rounded-full border border-outline-variant/10 flex flex-col items-center justify-center backdrop-blur-xl">
+                        <span class="material-symbols-outlined text-[24px] text-primary-container/80 mb-1" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+                        <span class="font-label-sm text-label-sm text-on-surface-variant">3 Activos</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Asset List Module -->
+            <section class="glass-card rounded-2xl p-md border border-outline-variant/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                <h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide mb-md px-xs">Activos Distribuidos</h3>
+                <div class="flex flex-col gap-2">
+                    <!-- Row: BTC -->
+                    <div class="flex items-center justify-between py-3 px-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer">
+                        <div class="flex items-center gap-md">
+                            <div class="bg-secondary-container/20 border border-secondary-container/50 text-secondary-fixed rounded-md px-2 py-1 font-financial text-label-sm shadow-[inset_0_0_10px_rgba(46,71,112,0.5)]">$BTC</div>
+                            <div class="flex flex-col">
+                                <span class="font-title-md text-[16px] text-on-surface font-semibold">Bitcoin</span>
+                                <span class="font-financial text-body-md text-on-surface-variant/70 text-[13px]">0.452 BTC</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="font-financial text-title-md text-[16px] text-on-surface font-semibold">$19,052.16</span>
+                            <span class="font-financial text-body-md text-primary-container text-[13px] flex items-center">
+                                <span class="material-symbols-outlined text-[13px] mr-[2px]">arrow_drop_up</span>1.2%
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Row: ETH -->
+                    <div class="flex items-center justify-between py-3 px-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer">
+                        <div class="flex items-center gap-md">
+                            <div class="bg-secondary-container/20 border border-secondary-container/50 text-secondary-fixed rounded-md px-2 py-1 font-financial text-label-sm shadow-[inset_0_0_10px_rgba(46,71,112,0.5)]">$ETH</div>
+                            <div class="flex flex-col">
+                                <span class="font-title-md text-[16px] text-on-surface font-semibold">Ethereum</span>
+                                <span class="font-financial text-body-md text-on-surface-variant/70 text-[13px]">4.20 ETH</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="font-financial text-title-md text-[16px] text-on-surface font-semibold">$9,450.00</span>
+                            <span class="font-financial text-body-md text-primary-container text-[13px] flex items-center">
+                                <span class="material-symbols-outlined text-[13px] mr-[2px]">arrow_drop_up</span>3.4%
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Row: SOL -->
+                    <div class="flex items-center justify-between py-3 px-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer">
+                        <div class="flex items-center gap-md">
+                            <div class="bg-secondary-container/20 border border-secondary-container/50 text-secondary-fixed rounded-md px-2 py-1 font-financial text-label-sm shadow-[inset_0_0_10px_rgba(46,71,112,0.5)]">$SOL</div>
+                            <div class="flex flex-col">
+                                <span class="font-title-md text-[16px] text-on-surface font-semibold">Solana</span>
+                                <span class="font-financial text-body-md text-on-surface-variant/70 text-[13px]">120.5 SOL</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="font-financial text-title-md text-[16px] text-on-surface font-semibold">$2,410.00</span>
+                            <span class="font-financial text-body-md text-error text-[13px] flex items-center">
+                                <span class="material-symbols-outlined text-[13px] mr-[2px]">arrow_drop_down</span>0.5%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 3: OPERACIONES ACTIVAS (Fleet View) -->
+        <div id="view-fleet" class="view-panel hidden flex flex-col gap-lg px-margin-mobile md:px-max(margin-desktop,20vw) py-lg w-full max-w-lg mx-auto">
+            <!-- Fleet PnL Header -->
+            <section class="flex flex-col items-center text-center mt-md">
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-xs flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                    Rendimiento de Operaciones (24h)
+                </span>
+                <h2 class="font-financial text-display-lg text-emerald-400 tracking-tight glow-pulse">
+                    +$2,480.12
+                </h2>
+                <div class="mt-sm px-3 py-1 rounded-full bg-emerald-950/30 border border-emerald-500/20 flex items-center gap-1 backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-[16px] text-emerald-400">trending_up</span>
+                    <span class="font-financial text-label-sm text-emerald-400">+5.8% APY Agregado</span>
+                </div>
+            </section>
+
+            <!-- Bot Cards Feed -->
+            <section class="flex flex-col gap-4">
+                <h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide px-xs">Sub-Agentes Activos</h3>
+                
+                <!-- Bot Card 1: BTC Grid Bot -->
+                <div class="glass-card border border-outline-variant/10 rounded-2xl p-md shadow-md flex flex-col gap-3 relative overflow-hidden group hover:border-primary-container/50 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/5 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span class="w-2.5 h-2.5 absolute rounded-full bg-emerald-400"></span>
+                            <h4 class="font-title-md text-[16px] text-on-surface font-semibold ml-1">BTC Spot Grid #012</h4>
+                        </div>
+                        <span class="font-label-sm text-[11px] bg-emerald-400/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-400/20">EJECUTANDO</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 py-2 border-y border-white/5 font-body-md text-[14px]">
+                        <div>
+                            <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Par / Parámetros</span>
+                            <span class="text-on-surface font-semibold font-financial">BTC-USDT • 20 Rejillas</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Rendimiento (UPL)</span>
+                            <span class="text-emerald-400 font-bold font-financial">+$152.40 (+1.84%)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-[12px] text-on-surface-variant">
+                        <span>Rango: 68,000 - 72,000 USDT</span>
+                        <span>Inversión: 100 USDT</span>
+                    </div>
+                </div>
+
+                <!-- Bot Card 2: ETH DCA Bot -->
+                <div class="glass-card border border-outline-variant/10 rounded-2xl p-md shadow-md flex flex-col gap-3 relative overflow-hidden group hover:border-primary-container/50 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/5 rounded-full blur-xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span class="w-2.5 h-2.5 absolute rounded-full bg-emerald-400"></span>
+                            <h4 class="font-title-md text-[16px] text-on-surface font-semibold ml-1">ETH DCA Optimizer #005</h4>
+                        </div>
+                        <span class="font-label-sm text-[11px] bg-emerald-400/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-400/20">EJECUTANDO</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 py-2 border-y border-white/5 font-body-md text-[14px]">
+                        <div>
+                            <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Par / Estructura</span>
+                            <span class="text-on-surface font-semibold font-financial">ETH-USDT • 3 Pasos</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Rendimiento (UPL)</span>
+                            <span class="text-emerald-400 font-bold font-financial">+$84.10 (+2.12%)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-[12px] text-on-surface-variant">
+                        <span>Paso Base: 50 USDT</span>
+                        <span>Multiplicador Vol: 1.5x</span>
+                    </div>
+                </div>
+
+                <!-- Bot Card 3: SOL Momentum Bot (Paused) -->
+                <div class="glass-card border border-outline-variant/10 rounded-2xl p-md shadow-md flex flex-col gap-3 relative overflow-hidden group transition-all duration-300">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                            <h4 class="font-title-md text-[16px] text-on-surface/80 font-semibold ml-1">SOL Grid Bot #009</h4>
+                        </div>
+                        <span class="font-label-sm text-[11px] bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded border border-amber-400/20">PAUSADO</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 py-2 border-y border-white/5 font-body-md text-[14px]">
+                        <div>
+                            <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Par / Parámetros</span>
+                            <span class="text-on-surface/80 font-semibold font-financial">SOL-USDT • 15 Rejillas</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Rendimiento (UPL)</span>
+                            <span class="text-on-surface/60 font-semibold font-financial">-$10.50 (-0.45%)</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-[12px] text-on-surface-variant">
+                        <span>Rango: 140 - 180 USDT</span>
+                        <span>Inversión: 50 USDT</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Fixed Bottom Input Area (Visible only on Nexus view) -->
+    <div id="nexus-input-area" class="fixed bottom-[72px] md:bottom-0 w-full z-40 bg-gradient-to-t from-[#060a13] via-[#060a13]/90 to-transparent pb-md pt-xl px-margin-mobile md:px-max(margin-desktop, 20vw) flex flex-col gap-sm hidden">
+        <!-- Suggestion Chips -->
+        <div class="flex gap-sm overflow-x-auto no-scrollbar pb-xs">
+            <button class="glass-card hover:bg-secondary-container/40 border border-secondary-container/50 text-secondary-fixed rounded-full px-4 py-1.5 font-label-sm text-label-sm whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 shadow-[0_0_15px_rgba(170,199,255,0.15)] tracking-wide">
+                <span class="material-symbols-outlined text-[14px]">query_stats</span> Analizar BTC
+            </button>
+            <button onclick="switchTab('fleet')" class="glass-card hover:bg-surface-variant/80 hover:shadow-[0_0_15px_rgba(170,199,255,0.2)] border border-outline-variant/30 text-on-surface rounded-full px-4 py-1.5 font-label-sm text-label-sm whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 tracking-wide">
+                <span class="material-symbols-outlined text-[14px]">precision_manufacturing</span> Ver Operaciones
+            </button>
+            <button onclick="switchTab('vault')" class="glass-card hover:bg-surface-variant/80 hover:shadow-[0_0_15px_rgba(170,199,255,0.2)] border border-outline-variant/30 text-on-surface rounded-full px-4 py-1.5 font-label-sm text-label-sm whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 tracking-wide">
+                <span class="material-symbols-outlined text-[14px]">account_balance_wallet</span> Ver Cartera
+            </button>
+        </div>
+        <!-- Input Field -->
+        <div class="glass-card border-t border-x border-primary-container/30 hover:border-primary-container hover:shadow-[0_-5px_30px_rgba(170,199,255,0.15)] rounded-t-xl px-md py-3.5 flex items-center justify-between shadow-[0_-5px_25px_rgba(0,0,0,0.3)] transition-all duration-300 group">
+            <input id="chat-input" autocomplete="off" class="bg-transparent outline-none w-full font-body-md text-body-md text-on-surface placeholder-on-surface-variant/50 border-none ring-0 focus:ring-0 p-0" placeholder="Comando a Neptune AI..." type="text"/>
+            <button id="chat-send-btn" class="text-primary/70 group-hover:text-primary hover:scale-110 hover:drop-shadow-[0_0_10px_rgba(170,199,255,0.8)] transition-all p-1">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe glass-card border-t border-outline-variant/20 shadow-[0_-8px_30px_rgba(0,0,0,0.2)] rounded-t-2xl">
+        <!-- Tab: Nexus -->
+        <button onclick="switchTab('nexus')" id="tab-btn-mobile-nexus" class="tab-btn flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary transition-all">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">hub</span>
+            <span class="font-label-sm text-label-sm mt-1 tracking-wider">CHAT</span>
+        </button>
+        <!-- Tab: Vault -->
+        <button onclick="switchTab('vault')" id="tab-btn-mobile-vault" class="tab-btn flex flex-col items-center justify-center text-primary bg-primary-container/10 rounded-xl px-4 py-1.5 scale-105 transition-all ease-in-out shadow-[0_0_20px_rgba(170,199,255,0.15)] border border-primary/10">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+            <span class="font-label-sm text-label-sm mt-1 tracking-wider">CARTERA</span>
+        </button>
+        <!-- Tab: Fleet -->
+        <button onclick="switchTab('fleet')" id="tab-btn-mobile-fleet" class="tab-btn flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-primary transition-all">
+            <span class="material-symbols-outlined">precision_manufacturing</span>
+            <span class="font-label-sm text-label-sm mt-1 tracking-wider">OPERACIONES</span>
+        </button>
+    </nav>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Hide all views
+            document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+            
+            // Show selected view
+            const selectedView = document.getElementById(`view-${tabId}`);
+            if (selectedView) selectedView.classList.remove('hidden');
+            
+            // Show/Hide input area only on Chat (nexus) view
+            const inputArea = document.getElementById('nexus-input-area');
+            if (inputArea) {
+                if (tabId === 'nexus') {
+                    inputArea.classList.remove('hidden');
+                } else {
+                    inputArea.classList.add('hidden');
+                }
+            }
+            
+            // Update active state in navigation buttons (Desktop)
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-primary', 'bg-primary-container/10', 'rounded-xl', 'px-4', 'py-1.5', 'scale-105', 'border', 'border-primary/10', 'shadow-[0_0_20px_rgba(170,199,255,0.15)]');
+                btn.classList.add('text-on-surface-variant/70');
+            });
+            
+            // Desktop active state
+            const deskBtn = document.getElementById(`tab-btn-desktop-${tabId}`);
+            if (deskBtn) {
+                deskBtn.classList.remove('text-on-surface-variant/70');
+                deskBtn.classList.add('text-primary');
+            }
+            
+            // Mobile active state
+            const mobBtn = document.getElementById(`tab-btn-mobile-${tabId}`);
+            if (mobBtn) {
+                mobBtn.classList.remove('text-on-surface-variant/70');
+                mobBtn.classList.add('text-primary', 'bg-primary-container/10', 'rounded-xl', 'px-4', 'py-1.5', 'scale-105', 'border', 'border-primary/10', 'shadow-[0_0_20px_rgba(170,199,255,0.15)]');
+            }
+            
+            // Trigger API loads on tab selection
+            if (tabId === 'vault') {
+                loadPortfolio();
+            } else if (tabId === 'fleet') {
+                loadActiveBots();
+            }
+            
+            // Scroll to top of view
+            const viewScroll = document.querySelector('div.flex-1');
+            if (viewScroll) viewScroll.scrollTop = 0;
+        }
+
+        // Chat Interaction Logic
+        const chatInput = document.getElementById('chat-input');
+        const chatSendBtn = document.getElementById('chat-send-btn');
+        const chatView = document.getElementById('view-nexus');
+        const mainContainer = document.querySelector('div.flex-1');
+
+        function appendUserMessage(text) {
+            const msgHtml = `
+            <div class="flex justify-end w-full group animate-message-enter">
+                <div class="glass-card border border-outline-variant/20 rounded-2xl rounded-tr-sm p-md max-w-[85%] md:max-w-[70%] text-on-surface font-body-md text-body-md shadow-lg">
+                    ${text}
+                </div>
+            </div>`;
+            chatView.insertAdjacentHTML('beforeend', msgHtml);
+            scrollToBottom();
+        }
+
+        let typingBubble = null;
+        function showTypingIndicator() {
+            const typingHtml = `
+            <div id="typing-indicator" class="flex justify-start w-full gap-sm animate-message-enter">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary-container/40 to-transparent border border-primary/30 flex-shrink-0 mt-1 flex items-center justify-center relative">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(170,199,255,0.9)] animate-pulse"></span>
+                </div>
+                <div class="glass-card ai-message-glow rounded-2xl rounded-tl-sm p-md max-w-[85%] md:max-w-[70%] text-on-surface-variant font-body-md text-body-md shadow-lg flex items-center gap-1.5">
+                    <span class="animate-bounce" style="animation-delay: 0s">•</span>
+                    <span class="animate-bounce" style="animation-delay: 0.2s">•</span>
+                    <span class="animate-bounce" style="animation-delay: 0.4s">•</span>
+                    <span class="ml-1 text-[13px]">Procesando con el Agente Interfaz en Vertex AI...</span>
+                </div>
+            </div>`;
+            chatView.insertAdjacentHTML('beforeend', typingHtml);
+            typingBubble = document.getElementById('typing-indicator');
+            scrollToBottom();
+        }
+
+        function removeTypingIndicator() {
+            if (typingBubble) {
+                typingBubble.remove();
+                typingBubble = null;
+            }
+        }
+
+        function appendAgentResponse(logs, finalResponse) {
+            if (logs && logs.length > 0) {
+                let logLines = '';
+                logs.forEach(log => {
+                    const colorClass = log.status === 'success' ? 'text-green-400' : (log.status === 'error' ? 'text-red-400' : 'text-primary');
+                    const icon = log.status === 'success' ? 'done' : (log.status === 'error' ? 'error' : 'settings_ethernet');
+                    logLines += `
+                    <div class="flex items-center gap-2 ${colorClass}">
+                        <span class="material-symbols-outlined text-[15px]">${icon}</span>
+                        <span>[${log.from} -> ${log.to}] ${log.message}</span>
+                    </div>`;
+                });
+                
+                const logsElement = `
+                <div class="flex justify-start w-full gap-sm animate-message-enter">
+                    <div class="w-6 h-6 rounded-full flex-shrink-0 mt-1"></div>
+                    <div class="glass-card rounded-2xl p-md max-w-[85%] md:max-w-[70%] bg-surface-container-lowest/30 border border-outline-variant/10 text-on-surface-variant font-label-sm text-[13px] shadow-sm flex flex-col gap-2">
+                        ${logLines}
+                    </div>
+                </div>`;
+                chatView.insertAdjacentHTML('beforeend', logsElement);
+            }
+            
+            const textElement = `
+            <div class="flex justify-start w-full gap-sm animate-message-enter">
+                <div class="w-6 h-6 rounded-full bg-gradient-to-br from-primary-container/40 to-transparent border border-primary/30 flex-shrink-0 mt-1 flex items-center justify-center relative">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(170,199,255,0.9)] animate-pulse"></span>
+                </div>
+                <div class="glass-card ai-message-glow rounded-2xl rounded-tl-sm p-md max-w-[85%] md:max-w-[70%] text-on-surface font-body-md text-body-md shadow-lg leading-relaxed">
+                    ${finalResponse}
+                </div>
+            </div>`;
+            
+            setTimeout(() => {
+                chatView.insertAdjacentHTML('beforeend', textElement);
+                scrollToBottom();
+            }, logs && logs.length > 0 ? 500 : 0);
+        }
+
+        function scrollToBottom() {
+            if (mainContainer) {
+                mainContainer.scrollTop = mainContainer.scrollHeight;
+            }
+        }
+
+        async function handleSend() {
+            const val = chatInput.value.trim();
+            if (!val) return;
+            appendUserMessage(val);
+            chatInput.value = '';
+            showTypingIndicator();
+
+            try {
+                const res = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: val })
+                });
+                const data = await res.json();
+                removeTypingIndicator();
+                appendAgentResponse(data.logs, data.response);
+            } catch (err) {
+                removeTypingIndicator();
+                appendAgentResponse([], "Error de conexión con el servidor de agentes.");
+            }
+        }
+
+        if (chatSendBtn && chatInput) {
+            chatSendBtn.addEventListener('click', handleSend);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSend();
+            });
+        }
+
+        // Live Portfolio API connection
+        async function loadPortfolio() {
+            try {
+                const res = await fetch("/api/portfolio");
+                const data = await res.json();
+                
+                const balHeader = document.querySelector("#view-vault h2");
+                if (balHeader) {
+                    balHeader.innerText = `$${parseFloat(data.total_eq).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                }
+                
+                const assetList = document.querySelector("#view-vault .flex-col.gap-2");
+                if (assetList && data.assets) {
+                    let html = '';
+                    data.assets.forEach(asset => {
+                        const isUp = !asset.change || asset.change.startsWith("+");
+                        const icon = isUp ? 'arrow_drop_up' : 'arrow_drop_down';
+                        const colorClass = isUp ? 'text-primary-container' : 'text-error';
+                        const changeStr = asset.change || "0.0%";
+                        
+                        html += `
+                        <div class="flex items-center justify-between py-3 px-3 hover:bg-white/5 rounded-xl transition-all cursor-pointer">
+                            <div class="flex items-center gap-md">
+                                <div class="bg-secondary-container/20 border border-secondary-container/50 text-secondary-fixed rounded-md px-2 py-1 font-financial text-label-sm shadow-[inset_0_0_10px_rgba(46,71,112,0.5)]">$${asset.ccy}</div>
+                                <div class="flex flex-col">
+                                    <span class="font-title-md text-[16px] text-on-surface font-semibold">${asset.ccy === 'BTC' ? 'Bitcoin' : (asset.ccy === 'ETH' ? 'Ethereum' : (asset.ccy === 'SOL' ? 'Solana' : asset.ccy))}</span>
+                                    <span class="font-financial text-body-md text-on-surface-variant/70 text-[13px]">${parseFloat(asset.eq).toFixed(4)} ${asset.ccy}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <span class="font-financial text-title-md text-[16px] text-on-surface font-semibold">$${parseFloat(asset.eqUsd).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                                <span class="font-financial text-body-md ${colorClass} text-[13px] flex items-center">
+                                    <span class="material-symbols-outlined text-[13px] mr-[2px]">${icon}</span>${changeStr}
+                                </span>
+                            </div>
+                        </div>`;
+                    });
+                    assetList.innerHTML = html;
+                }
+            } catch (err) {
+                console.error("Failed to load portfolio:", err);
+            }
+        }
+
+        // Live Active Bots API connection
+        async function loadActiveBots() {
+            try {
+                const res = await fetch("/api/active-bots");
+                const data = await res.json();
+                
+                let totalUpl = 0;
+                if (data.bots) {
+                    data.bots.forEach(b => totalUpl += parseFloat(b.upl || 0));
+                }
+                const uplHeader = document.querySelector("#view-fleet h2");
+                if (uplHeader) {
+                    uplHeader.innerText = (totalUpl >= 0 ? "+" : "") + `$${totalUpl.toFixed(2)}`;
+                    uplHeader.className = `font-financial text-display-lg tracking-tight glow-pulse ${totalUpl >= 0 ? 'text-emerald-400' : 'text-error'}`;
+                }
+                
+                const botFeed = document.querySelector("#view-fleet .flex-col.gap-4");
+                if (botFeed && data.bots) {
+                    let html = `<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide px-xs">Sub-Agentes Activos</h3>`;
+                    
+                    data.bots.forEach(b => {
+                        const isRunning = b.state === "RUNNING" || b.state === "EJECUTANDO";
+                        const stateColor = isRunning ? "bg-emerald-400/10 text-emerald-400 border-emerald-400/20" : "bg-amber-400/10 text-amber-400 border-amber-400/20";
+                        const uplColor = parseFloat(b.upl) >= 0 ? "text-emerald-400" : "text-error";
+                        const uplSign = parseFloat(b.upl) >= 0 ? "+" : "";
+                        const subText = b.algoOrdType === "grid" ? `Rango: ${b.minPrice} - ${b.maxPrice} USDT` : `Paso Base: 50 USDT`;
+                        const paramLabel = b.algoOrdType === "grid" ? `${b.gridNum || '20'} Rejillas` : `${b.steps || '3 Pasos'}`;
+                        
+                        html += `
+                        <div class="glass-card border border-outline-variant/10 rounded-2xl p-md shadow-md flex flex-col gap-3 relative overflow-hidden group hover:border-primary-container/50 transition-all duration-300">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/5 rounded-full blur-xl pointer-events-none"></div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    ${isRunning ? '<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span><span class="w-2.5 h-2.5 absolute rounded-full bg-emerald-400"></span>' : '<span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>'}
+                                    <h4 class="font-title-md text-[16px] text-on-surface font-semibold ml-1">${b.instId} ${b.algoOrdType.toUpperCase()} #${b.algoId}</h4>
+                                </div>
+                                <span class="font-label-sm text-[11px] ${stateColor} px-2 py-0.5 rounded border">${b.state}</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 py-2 border-y border-white/5 font-body-md text-[14px]">
+                                <div>
+                                    <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Par / Parámetros</span>
+                                    <span class="text-on-surface font-semibold font-financial">${b.instId} • ${paramLabel}</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-on-surface-variant block text-[12px] uppercase font-label-sm tracking-wider">Rendimiento (UPL)</span>
+                                    <span class="${uplColor} font-bold font-financial">${uplSign}$${parseFloat(b.upl).toFixed(2)} (${b.uplRatio || '0.00%'})</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center text-[12px] text-on-surface-variant">
+                                <span>${subText}</span>
+                                <span>Inversión: ${b.investment || '100 USDT'}</span>
+                            </div>
+                        </div>`;
+                    });
+                    botFeed.innerHTML = html;
+                }
+            } catch (err) {
+                console.error("Failed to load active bots:", err);
+            }
+        }
+
+        // Trigger initial API loads on boot
+        loadPortfolio();
+        loadActiveBots();
+
+        // Keep chat scrolled to bottom dynamically on Nexus view
+        if(mainContainer) {
+            mainContainer.scrollTop = mainContainer.scrollHeight;
+        }
+        
+        // Initialize Particles.js
+        particlesJS('particles-js', {
+          "particles": {
+            "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+            "color": { "value": "#aac7ff" },
+            "shape": { "type": "circle" },
+            "opacity": { "value": 0.3, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+            "size": { "value": 2, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } },
+            "line_linked": { "enable": true, "distance": 150, "color": "#aac7ff", "opacity": 0.1, "width": 1 },
+            "move": { "enable": true, "speed": 0.5, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true }
+          },
+          "retina_detect": true
+        });
+    </script>
+</body>
+</html>
