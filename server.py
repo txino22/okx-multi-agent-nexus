@@ -10,6 +10,7 @@ from agents import get_interface_config
 from google.antigravity import Agent
 from request_context import logs_var
 from okx_client import get_okx_balance, get_okx_active_bots
+from delegation import auto_delegate
 
 # Initialize Cloud Firestore Client
 db = None
@@ -94,7 +95,17 @@ async def chat_endpoint(req: ChatRequest):
             history_context += f"- {role}: {msg['content']}\n"
         history_context += "\nUsa este historial reciente únicamente para mantener el contexto de la conversación. No repitas saludos.\n\n"
         
-    prompt = f"{history_context}Mensaje actual del usuario: {req.message}"
+    t0 = time.monotonic()
+    analyst_output, strategist_output = await auto_delegate(req.message)
+    delegation_ms = (time.monotonic() - t0) * 1000
+    print(f"[Delegation] Parallel call completed in {delegation_ms:.0f}ms")
+
+    extra_context = ""
+    if analyst_output:
+        extra_context += f"[DATOS DEL ANALISTA]\n{analyst_output}\n\n"
+    if strategist_output:
+        extra_context += f"[DATOS DEL ESTRATEGA]\n{strategist_output}\n\n"
+    prompt = f"{extra_context}{history_context}Mensaje actual del usuario: {req.message}"
     
     # Pre-save raw user message to Firestore (without context)
     user_msg = {
@@ -198,7 +209,7 @@ async def active_bots_endpoint():
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STITCH_DIR = os.path.join(BASE_DIR, "stitch_neptune_trading_nexus")
 
-@app.get("/")
+@app.get("//")
 async def get_nexus():
     return FileResponse(os.path.join(STITCH_DIR, "the_nexus_ultra_fidelity_agent", "code.html"))
 

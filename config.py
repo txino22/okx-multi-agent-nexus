@@ -26,6 +26,8 @@ OKX_PASSPHRASE = os.environ.get("OKX_PASSPHRASE", "")
 
 # Trading environment mode: 'demo' (default) or 'live'
 OKX_MODE = os.environ.get("OKX_MODE", "demo").lower()
+# Timeout in seconds for parallel sub-agent delegation calls
+DELEGATION_TIMEOUT = int(os.environ.get("DELEGATION_TIMEOUT", "30"))
 
 def validate_config():
     """Prints warning logs if configuration seems incomplete or placeholder-based."""
