@@ -8,12 +8,12 @@ El sistema utiliza tres agentes especializados coordinados jerárquicamente para
 
 ```mermaid
 graph TD
-    User([Usuario]) <--> Interface[Agente Interfaz (Orquestador)]
-    Interface <-->|query_market_analyst| Analyst[Agente Analista (Market Watcher)]
-    Interface <-->|query_trading_strategist| Strategist[Agente Estratega (Optimizer)]
-    Analyst -->|Extrae datos crudos| OKX_Market[(OKX CEX Market MCP)]
-    Strategist -->|Cálculo de riesgo/beneficio| OKX_Bot[(OKX CEX Bot MCP)]
-    Interface -->|Ejecuta la orden aprobada| OKX_Trade[(OKX CEX Trading/Bot MCP)]
+    User(["Usuario"]) <--> Interface["Agente Interfaz (Orquestador)"]
+    Interface <-->|query_market_analyst| Analyst["Agente Analista (Market Watcher)"]
+    Interface <-->|query_trading_strategist| Strategist["Agente Estratega (Optimizer)"]
+    Analyst -->|Extrae datos crudos| OKX_Market[("OKX CEX Market MCP")]
+    Strategist -->|Cálculo de riesgo/beneficio| OKX_Bot[("OKX CEX Bot MCP")]
+    Interface -->|Ejecuta la orden aprobada| OKX_Trade[("OKX CEX Trading/Bot MCP")]
 ```
 
 1. **Agente Interfaz (Orquestador Principal):**
