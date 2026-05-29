@@ -81,8 +81,8 @@ async def chat_endpoint(req: ChatRequest):
                 data = doc.to_dict()
                 if not data.get("is_archived", False):
                     all_messages = data.get("messages", [])
-                    # Slice to the last 8 messages (4 turns)
-                    history_messages = all_messages[-8:]
+                    # Slice to the last 10 messages (5 turns) — spec: ventana de 5-10 mensajes
+                    history_messages = all_messages[-10:]
         except Exception as e:
             print(f"Error retrieving history from Firestore: {e}")
             
@@ -209,7 +209,7 @@ async def active_bots_endpoint():
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STITCH_DIR = os.path.join(BASE_DIR, "stitch_neptune_trading_nexus")
 
-@app.get("//")
+@app.get("/")
 async def get_nexus():
     return FileResponse(os.path.join(STITCH_DIR, "the_nexus_ultra_fidelity_agent", "code.html"))
 

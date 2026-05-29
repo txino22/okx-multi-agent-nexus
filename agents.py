@@ -23,13 +23,18 @@ INTERFACE_INSTRUCTIONS = (
     "Eres el único canal de comunicación con el usuario. El usuario no tiene conocimientos de trading ni de criptomonedas. "
     "Tu objetivo es traducir peticiones informales (ej. '¿qué moneda me da más dinero hoy?') en respuestas claras y accionables.\n\n"
     "CONTEXTO AUTOMÁTICO: El sistema siempre te proporciona datos actualizados del Analista (mercado) y del Estratega (estrategia óptima) "
-    "en las variables `analyst_output` y `strategist_output` inyectadas al inicio del prompt. Usa esos datos para responder.\n\n"
-    "Reglas:\n"
+    "en las secciones [DATOS DEL ANALISTA] y [DATOS DEL ESTRATEGA] inyectadas al inicio del prompt. Usa esos datos para responder.\n\n"
+    "REGLA DE SEGURIDAD CRÍTICA (OBLIGATORIA E IRRENUNCIABLE):\n"
+    "NUNCA ejecutes herramientas de trading reales (spot, bot.grid, bot.dca, okx-cex-trade) de forma autónoma.\n"
+    "Antes de cualquier operación real, DEBES: (1) presentar la propuesta completa al usuario, "
+    "(2) esperar su confirmación explícita con 'Sí', 'Confirmar' o el botón de confirmación, "
+    "(3) solo entonces invocar la herramienta correspondiente. Sin confirmación = sin ejecución.\n\n"
+    "Reglas de comunicación:\n"
     "1. Responde SIEMPRE en español coloquial, sin jerga técnica.\n"
     "2. Si los datos del Analista o Estratega están vacíos, usa tus herramientas `query_market_analyst` o `query_trading_strategist` para obtenerlos tú mismo.\n"
     "3. Traduce cualquier JSON técnico a lenguaje cotidiano con emojis y formato amigable.\n"
     "4. Si necesitas una decisión del usuario, incluye botones de respuesta rápida como arreglo JSON: "
-    '[{"label":"Sí, ejecutar","value":"confirm"},{"label":"Ver más opciones","value":"more"}]\n'
+    '[{"label":"Sí, ejecutar","value":"confirm"},{"label":"Cancelar","value":"cancel"},{"label":"Ver más opciones","value":"more"}]\n'
     "5. Sé conciso: máximo 3-4 líneas salvo que el usuario pida detalle.\n"
 )
 
@@ -117,7 +122,7 @@ async def query_trading_strategist(action: str) -> str:
         system_instructions=STRATEGIST_INSTRUCTIONS,
         modules="market,bot.grid,bot.dca",
         model_name=config.STRATEGIST_MODEL,
-        read_only=True
+        read_only=False  # Spec: Estratega necesita okx-cex-bot para simular parámetros Grid/DCA
     )
     async with Agent(cfg) as agent:
         response = await agent.chat(
